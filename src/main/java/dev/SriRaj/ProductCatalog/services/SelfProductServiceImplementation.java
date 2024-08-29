@@ -19,9 +19,11 @@ public class SelfProductServiceImplementation implements SelfProductService {
 
     private ProductRepository productRepository;
 
+
     @Autowired
     public SelfProductServiceImplementation(ProductRepository productRepository){
         this.productRepository=productRepository;
+
     }
 
     CreateProductResponseDto convertCreateProductRequestDtoToCreateProductResponseDto(CreateProductRequestDto request){
@@ -50,7 +52,7 @@ public class SelfProductServiceImplementation implements SelfProductService {
     }
 
     @Override
-    public GetProductReponseDto getProductById(Long Id) {
+    public GetProductResponseDto getProductById(Long Id) {
 
         Optional<Product> optionalProduct = productRepository.findById(Id);
 
@@ -72,7 +74,7 @@ public class SelfProductServiceImplementation implements SelfProductService {
             return null;
         }
 
-        GetProductReponseDto response=new GetProductReponseDto();
+        GetProductResponseDto response=new GetProductResponseDto();
         response.setId(optionalProduct.get().getId());
         response.setTitle(optionalProduct.get().getTitle());
         response.setPrice(optionalProduct.get().getPrice());
@@ -86,16 +88,18 @@ public class SelfProductServiceImplementation implements SelfProductService {
     @Override
     public GetAllProductsResponseDto getAllProducts() {
         GetAllProductsResponseDto ResponseDto=new GetAllProductsResponseDto();
-        List<GetProductReponseDto> ProductResponseDto=new ArrayList<>();
+        List<GetProductResponseDto> ProductResponseDto=new ArrayList<>();
         List<Product> products=productRepository.findAll();
-
-
+//
+//        //List<Product>  products=productRepository.getAllproducts(Pageable.ofSize(10));
+//        PageRequest pageRequest=PageRequest.of(2,10);
+//        List<Product> products=productRepository.getAllproducts((Pageable) pageRequest);
 
         return  createAllProductsResponseDto(ResponseDto,ProductResponseDto,products);
     }
 
     @Override
-    public GetProductReponseDto updateProductById(CreateProductRequestDto updatedDetails, Long id) {
+    public GetProductResponseDto updateProductById(CreateProductRequestDto updatedDetails, Long id) {
 
         Optional<Product> productToBeUpdated=productRepository.findById(id);
         if (productToBeUpdated.isEmpty()){
@@ -111,7 +115,7 @@ public class SelfProductServiceImplementation implements SelfProductService {
 
         Product updatedProduct=productRepository.save(product);
 
-        GetProductReponseDto productReponseDto=new GetProductReponseDto();
+        GetProductResponseDto productReponseDto=new GetProductResponseDto();
         productReponseDto.setTitle(updatedProduct.getTitle());
         productReponseDto.setDescription(updatedProduct.getDescription());
         productReponseDto.setPrice(updatedProduct.getPrice());
@@ -139,7 +143,7 @@ public class SelfProductServiceImplementation implements SelfProductService {
         }
 
         GetAllProductsResponseDto responseDto=new GetAllProductsResponseDto();
-        List<GetProductReponseDto> products=new ArrayList<>();
+        List<GetProductResponseDto> products=new ArrayList<>();
 
         GetAllProductsResponseDto allProducts=createAllProductsResponseDto(responseDto,products,productDetailsByCategory);
 
@@ -162,11 +166,11 @@ public class SelfProductServiceImplementation implements SelfProductService {
     }
 
     public GetAllProductsResponseDto createAllProductsResponseDto(GetAllProductsResponseDto ResponseDto,
-                                                                  List<GetProductReponseDto> ProductResponseDto,
+                                                                  List<GetProductResponseDto> ProductResponseDto,
                                                                   List<Product> products){
 
         for (Product product:products){
-            GetProductReponseDto newProduct=new GetProductReponseDto();
+            GetProductResponseDto newProduct=new GetProductResponseDto();
             newProduct.setId(product.getId());
             newProduct.setTitle(product.getTitle());
             newProduct.setPrice(product.getPrice());

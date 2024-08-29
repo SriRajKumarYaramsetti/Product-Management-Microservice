@@ -9,6 +9,6 @@ import java.util.List;
 @Getter
 @Setter
 public class GetAllProductsResponseDto {
-    List<GetProductReponseDto> allProducts;
+    List<GetProductResponseDto> allProducts;
 
 }

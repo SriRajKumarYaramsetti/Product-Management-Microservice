@@ -4,15 +4,12 @@ package dev.SriRaj.ProductCatalog.controllers;
 import dev.SriRaj.ProductCatalog.dtos.*;
 
 import dev.SriRaj.ProductCatalog.services.SelfProductService;
-import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
@@ -37,17 +34,9 @@ public class ProductController {
 
 
     @GetMapping("{id}")
-    public ResponseEntity<GetProductReponseDto> getProductById( @PathVariable("id") Long id){
+    public ResponseEntity<GetProductResponseDto> getProductById(@PathVariable("id") Long id){
 
-
-
-
-
-
-
-
-
-        GetProductReponseDto response=selfProductService.getProductById(id);
+        GetProductResponseDto response=selfProductService.getProductById(id);
 
         if (response==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -70,8 +59,8 @@ public class ProductController {
 
 
     @PutMapping("{id}")
-   public ResponseEntity<GetProductReponseDto> updateProductById(@RequestBody CreateProductRequestDto product,@PathVariable("id") Long id){
-        GetProductReponseDto responseDto=selfProductService.updateProductById(product,id);
+   public ResponseEntity<GetProductResponseDto> updateProductById(@RequestBody CreateProductRequestDto product, @PathVariable("id") Long id){
+        GetProductResponseDto responseDto=selfProductService.updateProductById(product,id);
         return new ResponseEntity<>(responseDto,HttpStatus.OK);
     }
 
